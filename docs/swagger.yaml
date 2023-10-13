@@ -1,9 +1,128 @@
-openapi: 3.0.2
-info:
-  title: Games-API
-  version: 1.0.0
-  description: >- 
-  ### This is a Swagger UI for our Games API  \n\n### Error handling\nErrors are presented using the HTTP status codes 400-599. The response include a more detailed explanation about the error in the body.\n\n```\n{\n  \"error\": \"Cleartext explanation of the error that occurred\"\n}\n```\n\n### Generic API errors\nThese error responses can be returned by any of the described endpoints.\n\n| HTTP status  |  Description |\n|---|---|\n| 400| Bad input parameters or invalid request. More information can be found in the response body.\n| 401| The consumer does not have access to the requested resource or the provided token is not valid.\n| 404| The requested resource can not be found or the user does not have access to the resource.\n| 5XX| A server error has occurred while processing the request.
-
-
-  ### Error handling
+{
+    "openapi": "3.0.2",
+    "info": {
+        "title": "Games-API",
+        "version": "1.0.0",
+        "description": "### This is a Swagger UI for our Games API  \n\n### Error handling\nErrors are presented using the HTTP status codes 400-599. The response include a more detailed explanation about the error in the body.\n\n```\n{\n  \"error\": \"Cleartext explanation of the error that occurred\"\n}\n```\n\n### Generic API errors\nThese error responses can be returned by any of the described endpoints.\n\n| HTTP status  |  Description |\n|---|---|\n| 400| Bad input parameters or invalid request. More information can be found in the response body.\n| 401| The consumer does not have access to the requested resource or the provided token is not valid.\n| 404| The requested resource can not be found or the user does not have access to the resource.\n| 5XX| A server error has occurred while processing the request."
+    },
+    "paths": {
+        "/games": {
+            "get": {
+                "requestBody": {
+                    "content": {
+                        "error": {}
+                    },
+                    "required": true
+                },
+                "tags": [
+                    "games"
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                },
+                                "examples": {
+                                    "List of games": {
+                                        "value": [
+                                            "Wither 3",
+                                            "Cyberpunk 2077",
+                                            "game3"
+                                        ]
+                                    }
+                                }
+                            }
+                        },
+                        "description": "games-api"
+                    },
+                    "201": {
+                        "content": {
+                            "new-game": {}
+                        },
+                        "description": "description"
+                    },
+                    "404": {
+                        "description": "error"
+                    }
+                },
+                "summary": "Get a list of all games",
+                "description": "Returns a list of all games in API"
+            }
+        },
+        "/games/{id}": {
+            "get": {
+                "tags": [
+                    "details"
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                },
+                                "examples": {
+                                    "Full details of a given id game": {
+                                        "value": "{id: 1, name: \"Wither 3\", price: 29.99},\n    {id: 2, name: \"Cyberpunk 2077\", price: 59.99},\n    {id: 3, name: \"Minecraft\", price: 26.99},\n    {id: 4, name: \"Counter-Strike: Global Offensive\", price: 0},\n    {id: 5, name: \"Roblox\", price: 0},\n    {id: 6, name: \"Grand Theft Auto V\", price: 29.99},\n    {id: 7, name: \"Valorant\", price: 0},\n    {id: 8, name: \"Forza Horizon 5\", price: 59.99}"
+                                    }
+                                }
+                            }
+                        },
+                        "description": "Returns full details of a given id game"
+                    },
+                    "404": {
+                        "content": {
+                            "application/json": {}
+                        },
+                        "description": "error"
+                    }
+                },
+                "description": "Returns details of a given id game"
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "error": {
+                "title": "Root Type for error",
+                "description": "",
+                "type": "object",
+                "properties": {
+                    "error": {
+                        "type": "string"
+                    }
+                },
+                "example": {
+                    "error": "Error message."
+                }
+            },
+            "new-game": {
+                "description": "",
+                "required": [
+                    "name",
+                    "price"
+                ],
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "price": {
+                        "format": "float",
+                        "description": "",
+                        "type": "number"
+                    }
+                }
+            }
+        }
+    }
+}
